@@ -63,6 +63,13 @@ validate_template() {
   fail "Unknown template: '$template'. Supported: ${SUPPORTED_TEMPLATES[*]}"
 }
 
+validate_project_name() {
+  local name="$1"
+  if [[ ! "$name" =~ ^[a-zA-Z][a-zA-Z0-9_-]*$ ]]; then
+    fail "Invalid project name: '$name'. Use only letters, numbers, hyphens, and underscores. Must start with a letter."
+  fi
+}
+
 copy_scaffold() {
   local template="$1"
   local dest="$2"
@@ -87,7 +94,10 @@ replace_project_name() {
 
   log "Replacing placeholders with project name '$project_name'..."
 
-  # Replace in all text files (skip .git and node_modules if they exist)
+  # Escape the project name for safe use as a sed replacement string
+  local escaped_name
+  escaped_name=$(printf '%s' "$project_name" | sed 's/[&/\]/\\&/g')
+
   find "$dest" \
     -not -path "*/.git/*" \
     -not -path "*/node_modules/*" \
@@ -97,11 +107,10 @@ replace_project_name() {
        -o -name "*.yml" -o -name "*.yaml" -o -name "*.py" -o -name "*.toml" \
        -o -name "*.env*" -o -name "Dockerfile*" -o -name "*.conf" \) \
     -exec sed -i.bak \
-      -e "s/{{PROJECT_NAME}}/$project_name/g" \
-      -e "s/architect-os-scaffold/$project_name/g" \
+      -e "s/{{PROJECT_NAME}}/$escaped_name/g" \
+      -e "s/architect-os-scaffold/$escaped_name/g" \
       {} \;
 
-  # Remove sed backup files
   find "$dest" -name "*.bak" -delete
 
   info "Placeholder replacement complete."
@@ -197,6 +206,7 @@ main() {
 
   check_dependencies
   validate_template "$TEMPLATE"
+  validate_project_name "$PROJECT_NAME"
 
   copy_scaffold "$TEMPLATE" "$DESTINATION"
   replace_project_name "$DESTINATION" "$PROJECT_NAME"
