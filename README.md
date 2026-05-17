@@ -2,7 +2,7 @@
 
 ![ArchitectOS](.github/banner.png)
 
-[![skills.sh](https://skills.sh/b/riz007/ArchitectOS)](https://skills.sh/riz007/ArchitectOS)
+[![skills.sh](https://skills.sh/b/riz007/architect-os)](https://skills.sh/riz007/architect-os)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 > Engineering standards, playbooks, scaffolds, and AI tool prompts for building production software across any stack.
@@ -26,7 +26,7 @@ Most teams lose time to inconsistency: different folder structures on every proj
 ## Install as Claude Code skills
 
 ```bash
-npx skills add riz007/ArchitectOS
+npx skills add riz007/architect-os
 ```
 
 Pick the skills you want. Then run `/setup-architect-os` in Claude Code — it will ask which stack you're using and install the right AI tool configs.
@@ -50,8 +50,8 @@ Full command docs: [skills/README.md](skills/README.md)
 ### Scaffold a new project
 
 ```bash
-git clone https://github.com/riz007/ArchitectOS.git
-cd ArchitectOS
+git clone https://github.com/riz007/architect-os.git
+cd architect-os
 
 # Vue 3 + TypeScript enterprise frontend
 ./tools/cli/scaffold.sh vue-enterprise my-frontend

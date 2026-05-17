@@ -5,7 +5,7 @@ Five Claude Code slash commands for engineering work that follows ArchitectOS st
 ## Install
 
 ```bash
-npx skills add riz007/ArchitectOS
+npx skills add riz007/architect-os
 ```
 
 Pick which skills you want, then run `/aos-setup` in Claude Code.

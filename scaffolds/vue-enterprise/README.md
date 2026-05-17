@@ -21,7 +21,7 @@ A production-ready Vue 3 + TypeScript enterprise application template with compr
 
 ```bash
 # Clone the scaffold
-npx skills add riz007/ArchitectOS
+npx skills add riz007/architect-os
 # then run: /aos-scaffold vue my-app
 cd my-app
 

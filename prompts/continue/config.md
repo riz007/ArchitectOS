@@ -86,8 +86,8 @@ For project-specific context, create `.continue/config.json` in your project roo
   "docs": [
     {
       "title": "ArchitectOS Standards",
-      "startUrl": "https://github.com/riz007/ArchitectOS/blob/main/standards/coding/README.md",
-      "rootUrl": "https://github.com/riz007/ArchitectOS"
+      "startUrl": "https://github.com/riz007/architect-os/blob/main/standards/coding/README.md",
+      "rootUrl": "https://github.com/riz007/architect-os"
     }
   ]
 }
