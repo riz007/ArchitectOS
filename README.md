@@ -26,7 +26,7 @@ Most teams lose time to inconsistency: different folder structures on every proj
 ## Install as Claude Code skills
 
 ```bash
-npx skills@latest add riz007/architect-os
+npx skills add riz007/ArchitectOS
 ```
 
 Pick the skills you want. Then run `/setup-architect-os` in Claude Code — it will ask which stack you're using and install the right AI tool configs.
