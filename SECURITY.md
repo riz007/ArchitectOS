@@ -8,7 +8,7 @@ If you find a security vulnerability in ArchitectOS content — such as an insec
 
 ### How to report
 
-Email: security@architect-os.dev (or open a private GitHub security advisory)
+Open a [private GitHub security advisory](https://github.com/riz007/ArchitectOS/security/advisories/new)
 
 Include:
 - A description of the vulnerability
