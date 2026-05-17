@@ -49,8 +49,8 @@ Full command docs: [skills/README.md](skills/README.md)
 ### Scaffold a new project
 
 ```bash
-git clone https://github.com/architect-os/architect-os.git
-cd architect-os
+git clone https://github.com/riz007/ArchitectOS.git
+cd ArchitectOS
 
 # Vue 3 + TypeScript enterprise frontend
 ./tools/cli/scaffold.sh vue-enterprise my-frontend

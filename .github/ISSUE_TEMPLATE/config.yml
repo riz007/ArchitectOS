@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: Question or Discussion
-    url: https://github.com/architect-os/architect-os/discussions
+    url: https://github.com/riz007/ArchitectOS/discussions
     about: Ask questions and discuss ArchitectOS patterns and standards.
   - name: Stack-specific help
-    url: https://github.com/architect-os/architect-os/discussions/categories/q-a
+    url: https://github.com/riz007/ArchitectOS/discussions/categories/q-a
     about: Get help applying ArchitectOS patterns to your stack.

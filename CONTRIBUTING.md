@@ -38,8 +38,8 @@ This project follows a code of conduct to ensure a welcoming environment for all
 1. **Fork the repository**
 
    ```bash
-   git clone https://github.com/your-username/architect-os.git
-   cd architect-os
+   git clone https://github.com/your-username/ArchitectOS.git
+   cd ArchitectOS
    ```
 
 2. **Install dependencies**
@@ -73,7 +73,7 @@ This project follows a code of conduct to ensure a welcoming environment for all
 
 ### 1. Choose an Issue
 
-- Check the [issue tracker](https://github.com/architect-os/architect-os/issues) for open issues
+- Check the [issue tracker](https://github.com/riz007/ArchitectOS/issues) for open issues
 - Look for issues labeled `good first issue` or `help wanted`
 - Comment on the issue to indicate you're working on it
 

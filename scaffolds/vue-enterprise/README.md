@@ -21,7 +21,8 @@ A production-ready Vue 3 + TypeScript enterprise application template with compr
 
 ```bash
 # Clone the scaffold
-git clone https://github.com/architect-os/vue-enterprise-scaffold.git my-app
+npx skills@latest add riz007/ArchitectOS
+# then run: /aos-scaffold vue my-app
 cd my-app
 
 # Install dependencies
