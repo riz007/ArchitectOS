@@ -2,6 +2,7 @@
 
 ![ArchitectOS](.github/banner.png)
 
+[![skills.sh](https://skills.sh/b/riz007/ArchitectOS)](https://skills.sh/riz007/ArchitectOS)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 > Engineering standards, playbooks, scaffolds, and AI tool prompts for building production software across any stack.
