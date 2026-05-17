@@ -1,0 +1,39 @@
+# ArchitectOS Aider Configuration
+#
+# Copy this file to your project root as .aider.conf.yml
+# or reference it with: aider --config prompts/aider/aider.conf.yml
+
+# Load ArchitectOS engineering conventions into every session
+read:
+  - prompts/aider/conventions.md
+
+# Use a capable model for complex architectural work
+# model: claude-opus-4-5
+
+# Prefer making edits in-place rather than producing full file rewrites
+edit-format: diff
+
+# Show diffs before applying
+show-diffs: true
+
+# Auto-commit with conventional commit messages
+auto-commits: true
+commit-prompt: |
+  Write a conventional commit message for these changes.
+  Format: type(scope): description
+  Types: feat, fix, docs, refactor, test, chore
+  Keep description under 72 characters.
+  Do not add a body unless the change is complex.
+
+# Exclude generated and dependency files from context
+gitignore: true
+
+# Lint files after edits when linters are configured
+lint: true
+
+# Run tests after edits when test commands are configured
+# test: true
+# test-cmd: npm test
+
+# Map out the repo structure for better context
+map-tokens: 1024

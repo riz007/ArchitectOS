@@ -18,7 +18,6 @@ This document describes how the repo is composed and where each architectural co
 ### 1. Governance layer
 
 - `README.md`
-- `SPEC.md`
 - `AGENTS.md`
 - `ARCHITECTURE.md`
 - `ENGINEERING_PRINCIPLES.md`
@@ -123,12 +122,12 @@ The latest architecture emphasizes shared principles with technology-specific ap
 
 ### Intent 3: Actionable guidance over abstract boilerplate
 
-ArchitectOS is not a catalog of generic architectural vocabulary. It is a system for creating enterprise-grade, agent-consumable projects. That means this file should describe the actual repository architecture and its integration model, not just repeat generic architecture patterns.
+ArchitectOS is not a catalog of generic architectural vocabulary. It is a system for creating projects that are consistent, secure, and ready for AI-assisted workflows. This document describes the actual repository architecture and its integration model — not abstract patterns.
 
 ## Evolution and change
 
-- `SPEC.md` is the authoritative product spec and must be updated when architecture decisions shift.
+- `README.md` is the entry point and must reflect the current state of the repo.
 - `standards/architecture/README.md` contains the canonical architecture principles for implementations.
-- `ARCHITECTURE.md` is the current repo-level map and integration guide.
+- `ARCHITECTURE.md` is the repo-level map and integration guide — update it when folder roles change.
 
 When the architecture changes, update this document first to reflect the new folder roles and decision model.

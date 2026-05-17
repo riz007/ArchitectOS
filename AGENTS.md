@@ -17,7 +17,7 @@ All AI agents operating in this repository must:
 
 ## What agents should do first
 
-1. Read `SPEC.md` to understand the current product intent.
+1. Read `README.md` to understand the project scope and intent.
 2. Review `ARCHITECTURE.md` and `ENGINEERING_PRINCIPLES.md` for repository-level expectations.
 3. Inspect the relevant `playbooks/` folder for stack-specific guidance.
 4. Consult `standards/` and `rules/` before writing or changing code.
@@ -56,4 +56,4 @@ All AI agents operating in this repository must:
 - If a requirement conflicts with existing repo standards.
 - If a proposed dependency is not already in the target stack or repo.
 - If the task could change the architecture or cross-cut major layers.
-- If the needed information is missing from `SPEC.md`, `ARCHITECTURE.md`, or playbooks.
+- If the needed information is missing from `README.md`, `ARCHITECTURE.md`, or playbooks.

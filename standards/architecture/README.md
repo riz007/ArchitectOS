@@ -296,7 +296,7 @@ spec:
 
 ### CI/CD Pipelines
 
-Implement comprehensive pipelines:
+CI/CD pipeline structure:
 
 ```yaml
 # .github/workflows/ci.yml

@@ -104,7 +104,7 @@ git add .
 git commit -m "feat: add new Vue component scaffold
 
 - Add component template with TypeScript support
-- Include comprehensive tests
+- Include tests for the change
 - Update documentation
 
 Closes #123"
@@ -368,7 +368,7 @@ All PRs must pass:
 
 - [ ] Code follows ArchitectOS standards
 - [ ] TypeScript types are correct
-- [ ] Tests are comprehensive
+- [ ] Tests cover the changed behavior
 - [ ] Documentation is updated
 - [ ] Security considerations addressed
 - [ ] Performance impact assessed

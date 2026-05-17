@@ -1,0 +1,34 @@
+{
+  "name": "architect-os",
+  "description": "Engineering standards, playbooks, and AI coding skills for production-grade software across Vue, React, NestJS, FastAPI, and more.",
+  "version": "1.0.0",
+  "author": "riz007",
+  "repository": "https://github.com/riz007/architect-os",
+  "skills": [
+    {
+      "name": "aos-setup",
+      "path": "skills/aos-setup",
+      "description": "One-time project setup — detects stack, writes AI tool configs, shows available commands"
+    },
+    {
+      "name": "aos-scaffold",
+      "path": "skills/aos-scaffold",
+      "description": "Generate a new project from a template (vue, react, nestjs, fastapi)"
+    },
+    {
+      "name": "aos-review",
+      "path": "skills/aos-review",
+      "description": "Review code against ArchitectOS architecture, type safety, security, and testing standards"
+    },
+    {
+      "name": "aos-feature",
+      "path": "skills/aos-feature",
+      "description": "Generate a complete feature slice — service, controller, DTOs, repository interface, and tests"
+    },
+    {
+      "name": "aos-audit",
+      "path": "skills/aos-audit",
+      "description": "Security audit against ArchitectOS rules — auth, validation, secrets, IDOR, and more"
+    }
+  ]
+}

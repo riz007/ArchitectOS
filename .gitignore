@@ -1,0 +1,51 @@
+# Editor and IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Claude Code local settings (not for public repos)
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+dist/
+.next/
+.nuxt/
+*.log
+npm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.mypy_cache/
+.ruff_cache/
+
+# Java
+target/
+*.class
+*.jar
+
+# Environment files — never commit real .env files
+.env
+.env.local
+.env.*.local
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Terraform state — keep local, use remote backend
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl

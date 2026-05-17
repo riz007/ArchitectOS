@@ -248,7 +248,7 @@ export class DataSanitizer {
 
 ### Schema Validation
 
-Use comprehensive validation schemas:
+Validate with explicit schemas:
 
 ```typescript
 // ✅ Input validation with Zod
@@ -459,7 +459,7 @@ if (!env.JWT_SECRET) {
 
 ### Logging Security Events
 
-Implement comprehensive security logging:
+Log security events with enough context to investigate incidents:
 
 ```typescript
 // ✅ Security event logging
@@ -590,4 +590,4 @@ jobs:
           args: './...'
 ```
 
-These security standards provide a comprehensive framework for building secure applications. Regular reviews and updates ensure continued protection against evolving threats.
+These rules should be treated as a baseline. Review them when the threat landscape shifts or when your audit surfaces gaps they don't cover.
