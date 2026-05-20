@@ -2,6 +2,8 @@
 
 Code review is the primary quality gate. Reviews should be fast, constructive, and focused on correctness — not style (that is the linter's job).
 
+---
+
 ## Review Goals
 
 1. **Catch bugs** before they reach production
@@ -10,6 +12,25 @@ Code review is the primary quality gate. Reviews should be fast, constructive, a
 4. **Maintain security** and prevent vulnerabilities
 
 Reviews are not about personal preference. If a standard exists, reference it. If no standard exists, make a suggestion (not a demand) or raise it as a team discussion.
+
+---
+
+## AI-Assisted Review
+
+Before human review, run the automated skill commands to surface mechanical issues immediately:
+
+| Command | What it checks |
+|---|---|
+| `/aos-review` | Architecture, type safety, security, naming, API design |
+| `/aos-audit` | Deep security audit — auth, CSRF, IDOR, secrets, headers |
+| `/aos-codereview` | Full PR decision with BLOCK/REQUEST/NIT verdict |
+| `/aos-frontend` | Component design, accessibility, performance, bundle size |
+| `/aos-ux` | Usability, loading/error states, microcopy, motion |
+| `/aos-qa` | Test pyramid, isolation, coverage, snapshot hygiene |
+| `/aos-pragmatic` | DRY, orthogonality, fail fast, broken windows |
+| `/aos-refactor` | Complexity, naming, duplication, refactoring patterns |
+
+For automated PR review on every push: see `/aos-ci` to set up the GitHub Action.
 
 ---
 
@@ -23,14 +44,14 @@ Reviews are not about personal preference. If a standard exists, reference it. I
 | 100–400 lines | 1 business day |
 | > 400 lines | 2 business days |
 
-Never leave a PR without a response for more than 2 business days. Even a "I'll review this tomorrow" comment unblocks the author.
+Never leave a PR without a response for more than 2 business days. Even "I'll review this tomorrow" unblocks the author.
 
 ### What to Check
 
 #### 1. Correctness
 
 - Does the code do what the PR description says?
-- Are there edge cases that are not handled?
+- Are edge cases handled?
 - Does error handling cover realistic failure modes?
 - Are async operations properly awaited?
 - Are race conditions possible?
@@ -38,12 +59,11 @@ Never leave a PR without a response for more than 2 business days. Even a "I'll 
 #### 2. Security
 
 - Are all inputs validated at the boundary?
-- Is there any path to SQL injection, XSS, or CSRF?
+- Is there any path to SQL injection, XSS, CSRF, or IDOR?
 - Are secrets passed through environment variables, not hardcoded?
 - Are authorization checks in place for every sensitive operation?
-- Does this change expose any new attack surface?
 
-See `standards/security/README.md` for specifics.
+See `standards/security/README.md` and run `/aos-audit` for specifics.
 
 #### 3. Architecture
 
@@ -51,51 +71,44 @@ See `standards/security/README.md` for specifics.
 - Is business logic in services, not in controllers or components?
 - Is there unnecessary coupling between modules?
 - Does this introduce circular dependencies?
-- Is the change compatible with horizontal scaling?
 
 #### 4. Performance
 
 - Are there N+1 query risks?
-- Is there unbounded data loading without pagination or limits?
-- Are expensive operations cached when appropriate?
-- Does this add work to the critical path that belongs off the critical path?
+- Is there unbounded data loading without pagination?
+- Are expensive operations cached where appropriate?
 
 #### 5. Tests
 
 - Are unit tests present for new business logic?
-- Do tests assert behavior, not implementation?
+- Do tests assert behaviour, not implementation?
 - Are edge cases and error conditions covered?
-- Do tests remain valid if the implementation is refactored?
 
 ---
 
 ## Comment Classification
 
-Use prefixes to signal intent. This removes ambiguity and makes it clear what the author must act on.
+Use these labels consistently across all reviews. They remove ambiguity about what must be actioned.
 
-| Prefix | Meaning | Must fix? |
+| Label | Meaning | Must fix before merge? |
 |---|---|---|
-| `[blocker]` | Must be resolved before merge | Yes |
-| `[suggestion]` | Improvement, but not required | No |
-| `[question]` | Seeking understanding | Author should respond |
-| `[nit]` | Minor style or formatting point | Author's discretion |
-| `[praise]` | Something done well | No action needed |
+| `[BLOCK]` | Correctness bug, security issue, or breaking change | Yes |
+| `[REQUEST]` | Missing test, unclear design, or improvable code — important but not blocking | Author's call |
+| `nit:` | Minor naming, formatting, or style point | No |
+| `[praise]` | Pattern worth reinforcing | No action |
 
 ```
-[blocker] This endpoint has no authorization check. Any authenticated user
-can delete any other user's data. Add a permission check using
-AuthorizationService.requirePermission(user, Permission.DELETE_USER).
+[BLOCK] This endpoint has no authorization check. Any authenticated user
+can delete any other user's data. Add @UseGuards(JwtAuthGuard) and verify
+req.user.id === targetUserId before the delete.
 
-[suggestion] Consider caching this result in Redis with a 5-minute TTL.
+[REQUEST] Consider caching this result in Redis with a 5-minute TTL.
 The database hit on every request will become a bottleneck at scale.
 
-[question] Why is this using a raw query instead of the ORM? Is there a
-performance reason, or is this worth a follow-up to align with the repository pattern?
-
-[nit] Variable name `d` isn't descriptive. `deletedCount` would read better.
+nit: variable name 'd' — 'discountPercent' would read better.
 
 [praise] Clean use of the repository pattern here — easy to swap the
-implementation for testing.
+implementation for testing without touching the service.
 ```
 
 ---
@@ -115,18 +128,19 @@ implementation for testing.
 ### Before Requesting Review
 
 - [ ] Self-review your own diff before assigning reviewers
+- [ ] Run `/aos-review` and fix any `[FAIL]` findings
 - [ ] CI is green
 - [ ] PR description is complete (what, how, testing done)
-- [ ] No debug logs, commented-out code, or TODOs left in
+- [ ] No debug logs, commented-out code, or development TODOs left in
 - [ ] No secrets in the diff
 - [ ] Related documentation updated if applicable
 
 ### Responding to Reviews
 
-- Respond to every comment, even with just "Done" or "Fixed in X"
-- Do not silently apply changes without acknowledging the feedback
+- Respond to every comment, even with "Done" or "Fixed in X"
+- Do not silently apply changes without acknowledging feedback
 - If you disagree, explain why — do not just ignore the comment
-- Do not merge until all `[blocker]` comments are resolved
+- Do not merge until all `[BLOCK]` comments are resolved
 
 ---
 
@@ -137,33 +151,33 @@ implementation for testing.
 | Anti-pattern | Why it's harmful |
 |---|---|
 | Nitpicking style that the linter handles | Wastes time on automatable checks |
-| Approving without actually reading | Gives false confidence |
-| Leaving vague comments like "This is bad" | Leaves the author without direction |
+| Approving without reading | Gives false confidence |
+| Leaving vague comments like "This is bad" | Author has no direction |
 | Blocking on preference, not standards | Creates subjective gatekeeping |
-| Reviewing architecture for the first time at PR stage | Architecture should be aligned before implementation |
+| Reviewing architecture for the first time at PR stage | Architecture must be aligned before implementation |
 
 ### For Authors
 
 | Anti-pattern | Why it's harmful |
 |---|---|
 | Giant PRs that are impossible to review | Reviewers rubber-stamp or miss bugs |
-| Pushing new commits during review without flagging | Invalidates in-progress reviews |
-| Merging without resolving blockers | Breaks review process |
-| Not self-reviewing before requesting review | Wastes reviewer's time on obvious issues |
+| Pushing commits during review without flagging | Invalidates in-progress reviews |
+| Merging without resolving blockers | Breaks review process trust |
+| Not self-reviewing before requesting review | Wastes reviewer time on obvious issues |
 
 ---
 
 ## Architecture Review (Pre-Implementation)
 
-For changes that cross architectural boundaries, involve new dependencies, or affect multiple teams, do a lightweight **architecture review** before writing code.
+For changes that cross module boundaries, introduce new dependencies, or affect multiple teams, do a lightweight architecture review **before writing code**.
 
-A one-page doc or PR discussion covering:
+A one-page document covering:
 
-1. **Problem**: What is being solved?
-2. **Options considered**: At least 2 alternatives evaluated
-3. **Chosen approach**: What and why
-4. **Trade-offs**: What is given up
-5. **Impact**: What breaks or changes for consumers
+1. **Problem** — what is being solved?
+2. **Options considered** — at least two alternatives evaluated
+3. **Chosen approach** — what and why
+4. **Trade-offs** — what is given up
+5. **Impact** — what breaks or changes for consumers
 
 This prevents wasted implementation work and large-scale review conflicts.
 
@@ -178,30 +192,38 @@ This prevents wasted implementation work and large-scale review conflicts.
 - [ ] Logic matches PR description
 - [ ] Edge cases handled
 - [ ] Error paths handled
+- [ ] No floating promises
 
 ### Security
-- [ ] Inputs validated
+- [ ] Inputs validated at boundary
 - [ ] Authorization checks in place
 - [ ] No secrets hardcoded
-- [ ] No SQL injection or XSS risk
+- [ ] No SQL injection, XSS, or CSRF risk
+- [ ] IDOR checks on resource access
 
 ### Architecture
 - [ ] Follows layering conventions
-- [ ] Business logic in services, not UI or controllers
+- [ ] Business logic in services, not controllers or UI
 - [ ] No circular dependencies introduced
 
 ### Performance
 - [ ] No N+1 queries
-- [ ] Unbounded queries paginated
-- [ ] Caching used where appropriate
+- [ ] Collections paginated
+- [ ] Cache invalidated where needed
 
 ### Tests
 - [ ] New logic has tests
 - [ ] Edge cases covered
-- [ ] Tests are behavior-focused, not implementation-focused
+- [ ] Tests are behaviour-focused
+
+### Dependencies
+- [ ] New packages actively maintained
+- [ ] Licences compatible
+- [ ] No new HIGH/CRITICAL vulnerabilities
 
 ### Housekeeping
 - [ ] No debug logs
 - [ ] No commented-out code
 - [ ] Docs updated if needed
+- [ ] .env.example updated for new env vars
 ```
