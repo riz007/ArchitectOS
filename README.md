@@ -40,6 +40,15 @@ Pick the skills you want. Then run `/setup-architect-os` in Claude Code — it w
 | `/aos-review` | Review selected code against ArchitectOS standards |
 | `/aos-feature <name> [stack]` | Generate a full feature (service + controller + DTOs + tests) |
 | `/aos-audit` | Security audit — auth, IDOR, secrets, validation, headers |
+| `/aos-frontend` | Review frontend components — CSS, accessibility, performance |
+| `/aos-ux` | Review UI for usability, empty states, forms, microcopy |
+| `/aos-qa` | Audit test suite — pyramid, naming, isolation, coverage |
+| `/aos-vuetify` | Review Vuetify 3 + Vue 3 code |
+| `/aos-pragmatic` | Review against Pragmatic Programmer principles |
+| `/aos-codereview` | Full PR review — BLOCK/REQUEST/NIT with a final decision |
+| `/aos-refactor` | Safe refactoring using named patterns |
+| `/aos-ci` | Set up automated Claude-powered PR review in GitHub Actions |
+| `/aos-generate` | Multi-agent full-stack feature generator |
 
 Full command docs: [skills/README.md](skills/README.md)
 
@@ -231,8 +240,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. Key areas where contribut
 
 - **Phase 1** ✅ Standards, playbooks, prompts, and validation rules
 - **Phase 2** ✅ Scaffolding engine with CLI tools
-- **Phase 3** 🚧 AI review engine (automated PR feedback against standards)
-- **Phase 4** Planned Multi-agent orchestration for full-stack generation
+- **Phase 3** ✅ AI review engine — GitHub Action that posts automated PR feedback via Claude
+- **Phase 4** ✅ Multi-agent orchestration — `/aos-generate` coordinates Architecture, Backend, Frontend, and Review agents to produce a complete feature in one pass
 
 ---
 

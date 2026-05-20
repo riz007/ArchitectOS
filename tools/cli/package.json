@@ -1,0 +1,12 @@
+{
+  "name": "architect-os-tools",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CLI tools for ArchitectOS — PR review engine and project validator",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.56.0"
+  }
+}

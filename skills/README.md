@@ -1,6 +1,6 @@
 # ArchitectOS Skills
 
-Twelve Claude Code slash commands for engineering work that follows ArchitectOS standards.
+Fourteen Claude Code slash commands for engineering work that follows ArchitectOS standards.
 
 ## Install
 
@@ -184,6 +184,44 @@ Checks the safety net first, then identifies opportunities: extract function, re
 
 ---
 
+### `/aos-ci`
+
+**Set up automated Claude-powered PR review in GitHub Actions.**
+
+```
+/aos-ci setup
+```
+
+Adds a GitHub Action workflow that runs on every PR, diffs changed source files, sends the diff to Claude, and posts `[FAIL]` / `[WARN]` findings as a PR comment. Fails the CI check if there are blocking findings.
+
+Requires: `ANTHROPIC_API_KEY` secret in your repository settings.
+
+---
+
+### `/aos-generate`
+
+**Multi-agent full-stack feature generator.**
+
+```
+/aos-generate <feature-name> [backend+frontend]
+```
+
+Examples:
+```
+/aos-generate user-management nestjs+vue
+/aos-generate order-processing fastapi+react
+```
+
+Coordinates four agents in sequence:
+1. **Architecture Agent** — designs the domain model, API contract, and business rules
+2. **Backend Agent** — generates DTOs, entity, repository interface, service + tests, controller
+3. **Frontend Agent** — generates API client, composable/hook, list and form components
+4. **Review Agent** — runs `/aos-review` on all generated files and fixes any findings
+
+Every file is complete — no placeholders.
+
+---
+
 ## Suggested workflow
 
 ```
@@ -212,4 +250,10 @@ Checks the safety net first, then identifies opportunities: extract function, re
 # 8. Clean up existing code
 /aos-refactor complexity
 /aos-pragmatic
+
+# 9. Generate a complete fullstack feature with multi-agent orchestration
+/aos-generate subscription nestjs+vue
+
+# 10. Automate reviews on every PR (run once to set up)
+/aos-ci setup
 ```
