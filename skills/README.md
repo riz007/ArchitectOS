@@ -1,6 +1,6 @@
 # ArchitectOS Skills
 
-Five Claude Code slash commands for engineering work that follows ArchitectOS standards.
+Twelve Claude Code slash commands for engineering work that follows ArchitectOS standards.
 
 ## Install
 
@@ -24,12 +24,6 @@ Detects your stack from existing files, asks which AI tools you use, and writes 
 /aos-setup
 ```
 
-What happens:
-1. Reads `package.json`, `pyproject.toml`, etc. to guess your stack
-2. Asks you to confirm frontend + backend + AI tools
-3. Writes `.cursorrules`, `.windsurfrules`, `.github/copilot-instructions.md`, or `.aider.conf.yml` depending on your answer
-4. Prints your playbook links and available commands
-
 ---
 
 ### `/aos-scaffold`
@@ -47,70 +41,35 @@ What happens:
 | `nestjs` | NestJS + TypeScript + TypeORM + clean architecture |
 | `fastapi` | FastAPI + Pydantic + SQLAlchemy + DDD |
 
-Examples:
-```
-/aos-scaffold vue my-dashboard
-/aos-scaffold nestjs user-service
-/aos-scaffold fastapi analytics-api
-```
-
-Generates: folder structure, config files, `.env.example`, `Dockerfile`, linting config, and a README with setup instructions.
-
 ---
 
 ### `/aos-review`
 
 **Review code against ArchitectOS standards.**
 
-Select the files you want reviewed (or paste code), then run the command.
-
 ```
 /aos-review
 ```
 
-Checks across five categories and reports `[FAIL]`, `[WARN]`, or `[PASS]` for each:
-
-| Category | What it checks |
-|---|---|
-| Architecture | Business logic placement, thin controllers, DTOs, feature structure |
-| Type safety | No `any`, typed parameters, branded domain IDs |
-| Security | Input validation, auth guards, no hardcoded secrets, no IDOR |
-| Testing | Behavior-focused tests, mocks at boundaries, error path coverage |
-| Performance | N+1 queries, unbounded collections, blocking I/O |
-
-Output includes file + line reference, a concrete fix, and the standard being violated.
+Checks architecture, type safety, security, testing, and performance. Reports `[FAIL]`, `[WARN]`, or `[PASS]` with file references and concrete fixes.
 
 ---
 
 ### `/aos-feature`
 
-**Generate a complete feature in one pass.**
+**Generate a complete vertical feature slice in one pass.**
 
 ```
 /aos-feature <name> [stack]
 ```
 
-Examples:
-```
-/aos-feature user nestjs
-/aos-feature order fastapi
-/aos-feature product react
-```
-
-Generates everything for a vertical slice — no placeholders:
-
-- **Backend**: DTO (input + response), domain entity, repository interface, service with tests, thin controller
-- **Frontend**: API module, data-fetching hook/composable, list and form components, types, module index
-
-All code follows the relevant playbook (`playbooks/nestjs/`, `playbooks/fastapi/`, etc.).
+Generates: DTO, domain entity, repository interface, service with tests, thin controller (backend) + API module, composable/hook, list and form components (frontend).
 
 ---
 
 ### `/aos-audit`
 
 **Security audit before shipping.**
-
-Select the files to audit, then run the command. For targeted audits:
 
 ```
 /aos-audit
@@ -119,28 +78,122 @@ Select the files to audit, then run the command. For targeted audits:
 /aos-audit payments
 ```
 
-Checks:
-- Input validation (Zod / class-validator / Pydantic)
-- JWT lifetime and refresh token rotation
-- Authorization and IDOR prevention
-- Hardcoded secrets and env var validation
-- Security headers (CSP, HSTS, X-Frame-Options)
-- File upload safety
+Checks auth, input validation, IDOR, secrets, SQL injection, security headers, and file upload safety. Reports `[HIGH]`, `[MEDIUM]`, `[LOW]` with risk and fix.
 
-Each finding includes severity (`[HIGH]` / `[MEDIUM]` / `[LOW]`), the risk if exploited, and a concrete code fix.
+---
+
+### `/aos-frontend`
+
+**Review frontend component code.**
+
+```
+/aos-frontend
+/aos-frontend components
+/aos-frontend forms
+/aos-frontend styles
+```
+
+Checks component design, CSS architecture, responsive design, accessibility (WCAG 2.1), performance, and state management.
+
+---
+
+### `/aos-ux`
+
+**Review UI implementation for usability.**
+
+```
+/aos-ux
+/aos-ux forms
+/aos-ux navigation
+/aos-ux onboarding
+```
+
+Checks loading/error/empty states, form UX, visual hierarchy, navigation patterns, microcopy quality, and mobile responsiveness.
+
+---
+
+### `/aos-qa`
+
+**Audit test suite quality and coverage.**
+
+```
+/aos-qa
+/aos-qa unit
+/aos-qa integration
+/aos-qa e2e
+```
+
+Checks test pyramid balance, naming conventions, isolation, mocking strategy, coverage completeness, and test data quality.
+
+---
+
+### `/aos-vuetify`
+
+**Review Vuetify 3 + Vue 3 component code.**
+
+```
+/aos-vuetify
+/aos-vuetify forms
+/aos-vuetify tables
+/aos-vuetify theme
+```
+
+Checks component usage, form validation patterns, responsive grid, data tables, theme configuration, dialog patterns, and tree-shaking setup.
+
+---
+
+### `/aos-pragmatic`
+
+**Review code against Pragmatic Programmer principles.**
+
+```
+/aos-pragmatic
+```
+
+Checks DRY, orthogonality, reversibility, no programming by coincidence, broken windows, boy scout rule, and good-enough software. Cites chapter and principle in every finding.
+
+---
+
+### `/aos-codereview`
+
+**Full pull request review.**
+
+```
+/aos-codereview
+/aos-codereview security
+/aos-codereview breaking
+/aos-codereview tests
+```
+
+Reviews correctness, readability, breaking changes, security, performance, and testing. Produces `[BLOCK]`, `[REQUEST]`, and `nit:` comments with a final APPROVE or REQUEST CHANGES decision.
+
+---
+
+### `/aos-refactor`
+
+**Safely refactor code using named patterns.**
+
+```
+/aos-refactor
+/aos-refactor complexity
+/aos-refactor naming
+/aos-refactor duplication
+```
+
+Checks the safety net first, then identifies opportunities: extract function, rename, guard clauses, decompose conditional, replace magic number, introduce parameter object, strangle fig, parallel change.
 
 ---
 
 ## Suggested workflow
 
 ```
-# 1. Configure the project
+# 1. Configure the project once
 /aos-setup
 
-# 2. Start a new service (or skip if adding to an existing project)
+# 2. Scaffold a new service or app
 /aos-scaffold nestjs payment-service
 
-# 3. Generate a feature
+# 3. Generate a feature end-to-end
 /aos-feature subscription nestjs
 
 # 4. Review what was generated
@@ -148,4 +201,15 @@ Each finding includes severity (`[HIGH]` / `[MEDIUM]` / `[LOW]`), the risk if ex
 
 # 5. Security check before opening a PR
 /aos-audit payments
+
+# 6. Full PR review before merge
+/aos-codereview
+
+# 7. UX and frontend quality before shipping
+/aos-frontend
+/aos-ux
+
+# 8. Clean up existing code
+/aos-refactor complexity
+/aos-pragmatic
 ```
