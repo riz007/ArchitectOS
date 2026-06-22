@@ -1,6 +1,15 @@
 # ArchitectOS Skills
 
-Fourteen Claude Code slash commands for engineering work that follows ArchitectOS standards.
+Claude Code skills for engineering work that follows ArchitectOS standards. They come in two
+kinds:
+
+- **User-invoked** (`/aos-*`) — orchestrators you trigger explicitly (14 commands, below).
+- **Model-invoked** — disciplines Claude applies *automatically* while it works, when the
+  task matches, without being asked (4 skills, below). These are what make the standards
+  apply during normal coding instead of only when you remember to run a command.
+
+New to the repo? Read [CONTEXT.md](../CONTEXT.md) first — it's the shared vocabulary every
+skill assumes.
 
 ## Install
 
@@ -12,7 +21,22 @@ Pick which skills you want, then run `/aos-setup` in Claude Code.
 
 ---
 
-## Commands
+## Model-invoked disciplines (applied automatically)
+
+These have no slash command. Claude reaches for them when the work matches — e.g. it applies
+`aos-hardening` the moment it touches an auth route, or `aos-debugging` when chasing a stack
+trace. Each is self-contained, so they work even installed on their own.
+
+| Skill | Triggers when you're… |
+|---|---|
+| `aos-implementing-features` | writing a new endpoint, service, controller, component, hook, or DTO |
+| `aos-debugging` | tracking down a bug, failing test, exception, or regression |
+| `aos-tdd` | adding/changing behavior, writing tests, or improving coverage |
+| `aos-hardening` | touching auth, input, queries, secrets, tokens, uploads, or responses |
+
+---
+
+## Commands (user-invoked)
 
 ### `/aos-setup`
 

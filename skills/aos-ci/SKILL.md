@@ -39,16 +39,24 @@ your-project/
         └── package.json         ← add this
 ```
 
-### Step 3 — Add the API key secret
+### Step 3 — Add your own API key secret (bring-your-own-key)
 
-In your GitHub repository: **Settings → Secrets and variables → Actions → New repository secret**
+The review is **opt-in and bring-your-own-key**. The workflow reads `ANTHROPIC_API_KEY`
+from *your* repository's secrets and bills *your* Anthropic account — it never uses the
+ArchitectOS maintainer's key. If no key is set, the workflow detects this, skips every
+step, and passes green — so forks and clones never fail CI or incur cost they didn't opt
+into.
+
+To enable it, in **your** GitHub repository:
+**Settings → Secrets and variables → Actions → New repository secret**
 
 ```
 Name:  ANTHROPIC_API_KEY
 Value: sk-ant-...
 ```
 
-Get your key at console.anthropic.com.
+Get your key at console.anthropic.com. It's pay-as-you-go and separate from any Claude
+subscription.
 
 ### Step 4 — Push and open a PR
 

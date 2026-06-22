@@ -1,0 +1,20 @@
+{
+  "name": "architect-os",
+  "version": "1.1.0",
+  "description": "Engineering standards as agent skills: thin controllers, validated boundaries, secure-by-default, test-driven. Ships user-invoked commands (scaffold, review, audit, feature) and model-invoked disciplines that apply automatically while you code.",
+  "author": {
+    "name": "Rizwanul Islam Rudra",
+    "url": "https://github.com/riz007/architect-os"
+  },
+  "homepage": "https://github.com/riz007/architect-os",
+  "repository": "https://github.com/riz007/architect-os",
+  "license": "MIT",
+  "keywords": [
+    "architecture",
+    "code-review",
+    "security",
+    "scaffolding",
+    "agentic-coding",
+    "standards"
+  ]
+}

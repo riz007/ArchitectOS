@@ -17,11 +17,23 @@ All AI agents operating in this repository must:
 
 ## What agents should do first
 
-1. Read `README.md` to understand the project scope and intent.
-2. Review `ARCHITECTURE.md` and `ENGINEERING_PRINCIPLES.md` for repository-level expectations.
-3. Inspect the relevant `playbooks/` folder for stack-specific guidance.
-4. Consult `standards/` and `rules/` before writing or changing code.
-5. Confirm the target output format and directory structure before generating files.
+1. Read `CONTEXT.md` for the shared vocabulary and layering model every skill assumes.
+2. Read `README.md` to understand the project scope and intent.
+3. Review `ARCHITECTURE.md` and `ENGINEERING_PRINCIPLES.md` for repository-level expectations.
+4. Inspect the relevant `playbooks/` folder for stack-specific guidance.
+5. Consult `standards/` and `rules/` before writing or changing code.
+6. Confirm the target output format and directory structure before generating files.
+
+## Skills, subagents, and hooks
+
+- **Skills** (`skills/`) come in two kinds. *User-invoked* `/aos-*` commands are triggered
+  explicitly. *Model-invoked* disciplines (`aos-implementing-features`, `aos-debugging`,
+  `aos-tdd`, `aos-hardening`) should be applied **proactively** when the work matches their
+  description — don't wait to be asked.
+- **Subagents** (`agents/`) are dispatched by `/aos-generate` via the Task tool. Prefer
+  launching the specialised subagent over doing every role yourself in one context.
+- **Git guardrails** (`hooks/`) block irreversible git operations. If a command is blocked,
+  read the guidance and follow the safe alternative rather than overriding the hook.
 
 ## File and change conventions
 
