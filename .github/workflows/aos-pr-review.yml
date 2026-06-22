@@ -23,11 +23,11 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: tools/cli/package-lock.json
 
       - name: Install review dependencies
-        run: |
-          cd tools/cli
-          npm install
+        run: npm ci
+        working-directory: tools/cli
 
       - name: Run ArchitectOS Review
         env:
