@@ -42,7 +42,17 @@ Look for stack indicators, then confirm with the user:
 | GitHub Copilot | `.github/copilot-instructions.md` |
 | Aider | `.aider.conf.yml` |
 
-Content for each file comes from the matching file in `prompts/` in the ArchitectOS repo.
+Content for each file comes from the matching file in `prompts/` **if the ArchitectOS repo
+is checked out**. When installed as a standalone skill (no `prompts/` directory present),
+generate the config content yourself from `CONTEXT.md` and the non-negotiables below — do
+not fail or skip the step:
+
+> Follow ArchitectOS conventions. Logic lives in services; controllers/components stay thin.
+> Validate inputs at the boundary and return DTOs, never entities. Auth guard + ownership
+> check on sensitive routes. Parameterised queries only. No `any` in TypeScript; type hints
+> on every Python def. Feature-based folders. Tests cover error paths, not just happy paths.
+
+Write that (expanded for the detected stack) into each selected tool's config file.
 
 ### Step 4 — Print summary
 

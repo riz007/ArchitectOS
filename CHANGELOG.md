@@ -11,6 +11,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Model-invoked skills** — disciplines Claude applies automatically while coding, no command needed:
+  `aos-implementing-features`, `aos-debugging`, `aos-tdd`, `aos-hardening`. Each is self-contained
+  so it works even installed standalone.
+- **Subagents** (`agents/`) — `aos-architect`, `aos-backend-engineer`, `aos-frontend-engineer`,
+  `aos-reviewer`. `/aos-generate` now dispatches these real subagents via the Task tool instead of
+  role-playing four agents in one context.
+- **Git guardrails** (`hooks/`) — a `PreToolUse` hook that blocks force-push, `git reset --hard`,
+  `git clean -f`, `--no-verify`, and direct commits on protected branches, with guidance on what to
+  do instead. Override via `AOS_DISABLE_GIT_GUARDRAILS` / `AOS_ALLOW_PROTECTED`.
+- `.claude-plugin/plugin.json` — Claude Code plugin manifest for plugin/marketplace distribution
+- `CONTEXT.md` — shared domain glossary and layering model loaded by every skill
+
+### Changed
+
+- `/aos-generate` description and workflow updated to dispatch four subagents (Architect, Backend,
+  Frontend, Reviewer) rather than three role-played in-context agents
+- `/aos-setup` and `/aos-scaffold` now degrade gracefully when installed standalone (no repo
+  `prompts/`/`scaffolds/` present) by generating content inline instead of failing
+- `skills/README.md` and `README.md` document the user-invoked vs. model-invoked skill split
 - Windsurf rules prompt (`prompts/windsurf/rules.md`) for `.windsurfrules` integration
 - Aider configuration (`prompts/aider/`) with `aider.conf.yml` and `conventions.md`
 - Continue.dev configuration (`prompts/continue/config.md`) with slash commands and context providers

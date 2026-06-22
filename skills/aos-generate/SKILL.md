@@ -1,6 +1,6 @@
 ---
 name: aos-generate
-description: Multi-agent full-stack feature generator. Orchestrates three specialised agents — Architecture, Backend, Frontend — to design and generate a complete vertical slice in one pass. Use when user wants to generate a complete feature end-to-end, says "generate the full feature", or needs fullstack scaffolding beyond what /aos-feature provides.
+description: Multi-agent full-stack feature generator. Dispatches four specialised subagents — Architect, Backend Engineer, Frontend Engineer, Reviewer — to design, generate, and review a complete vertical slice in one pass. Use when user wants to generate a complete feature end-to-end, says "generate the full feature", or needs fullstack scaffolding beyond what /aos-feature provides.
 ---
 
 # /aos-generate
@@ -22,7 +22,18 @@ Generate a complete full-stack feature using a coordinated chain of specialised 
 
 ## How it works
 
-`/aos-generate` runs four agents in sequence. Each agent receives the output of the previous as context.
+`/aos-generate` dispatches four **real subagents** in sequence via the Task tool — it does
+not just role-play them in one context. Each agent runs in its own context and receives the
+previous agent's output as input:
+
+| Step | Subagent | Definition |
+|---|---|---|
+| 1 | `aos-architect` | [agents/aos-architect.md](../../agents/aos-architect.md) |
+| 2 | `aos-backend-engineer` | [agents/aos-backend-engineer.md](../../agents/aos-backend-engineer.md) |
+| 3 | `aos-frontend-engineer` | [agents/aos-frontend-engineer.md](../../agents/aos-frontend-engineer.md) |
+| 4 | `aos-reviewer` | [agents/aos-reviewer.md](../../agents/aos-reviewer.md) |
+
+Each agent receives the output of the previous as context.
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -77,11 +88,15 @@ Ask the user:
 4. Brief description: what does this feature do?
 5. Any specific requirements: auth-protected? file uploads? pagination?
 
+> **Dispatch, don't role-play.** For each step below, launch the named subagent with the
+> Task tool, passing the feature name, stack, and the prior step's output. If the subagents
+> are not installed (e.g. skills installed without `agents/`), fall back to performing each
+> role inline using the same instructions.
+
 ### Step 2 — Architecture Agent
 
-Act as an Architecture Agent. Design the feature before writing any code.
-
-Output a structured architecture plan:
+Launch the `aos-architect` subagent with the feature name, stack, and description. It returns
+a structured architecture plan (it writes no code):
 
 ```
 ## Architecture Plan: <feature-name>
@@ -113,9 +128,8 @@ DELETE /api/<resources>/:id      — delete
 
 ### Step 3 — Backend Agent
 
-Act as a Backend Agent. Using the architecture plan, generate all backend files with **no placeholders**.
-
-Generate in this order:
+Launch the `aos-backend-engineer` subagent with the architecture plan. It generates all
+backend files with **no placeholders** in this order:
 1. `src/modules/<name>/dto/create-<name>.dto.ts`
 2. `src/modules/<name>/dto/update-<name>.dto.ts`
 3. `src/modules/<name>/dto/<name>-response.dto.ts`
@@ -135,9 +149,8 @@ Rules:
 
 ### Step 4 — Frontend Agent
 
-Act as a Frontend Agent. Using the API contract from the architecture plan, generate all frontend files with **no placeholders**.
-
-Generate in this order:
+Launch the `aos-frontend-engineer` subagent with the API contract from the architecture plan.
+It generates all frontend files with **no placeholders** in this order:
 1. `src/modules/<name>s/types/<name>.ts`
 2. `src/modules/<name>s/api/<name>sApi.ts`
 3. `src/modules/<name>s/hooks/use<Name>s.ts` (React) or `composables/use<Name>s.ts` (Vue)
@@ -154,7 +167,8 @@ Rules:
 
 ### Step 5 — Review Agent
 
-Run `/aos-review` on all generated files. Report any issues and fix them immediately.
+Launch the `aos-reviewer` subagent on all generated files. It reports FAIL/WARN/PASS and
+fixes every blocking finding in place.
 
 ## Output
 

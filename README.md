@@ -29,9 +29,17 @@ Most teams lose time to inconsistency: different folder structures on every proj
 npx skills add riz007/architect-os
 ```
 
-Pick the skills you want. Then run `/setup-architect-os` in Claude Code — it will ask which stack you're using and install the right AI tool configs.
+Pick the skills you want. Then run `/aos-setup` in Claude Code — it will ask which stack you're using and install the right AI tool configs.
 
-**Available commands — all prefixed `aos-` so they're easy to find with tab-complete:**
+ArchitectOS skills come in **two kinds**:
+
+- **Model-invoked disciplines** — applied automatically while Claude codes, no command needed:
+  `aos-implementing-features`, `aos-debugging`, `aos-tdd`, `aos-hardening`. These keep logic in
+  services, boundaries validated, and security wired in *as code is written* — not only when
+  you remember to review. See [CONTEXT.md](CONTEXT.md) for the shared model they assume.
+- **User-invoked commands** — orchestrators you trigger, all prefixed `aos-` for tab-complete:
+
+**Available commands:**
 
 | Command | What it does |
 |---|---|
@@ -51,6 +59,21 @@ Pick the skills you want. Then run `/setup-architect-os` in Claude Code — it w
 | `/aos-generate` | Multi-agent full-stack feature generator |
 
 Full command docs: [skills/README.md](skills/README.md)
+
+### Subagents
+
+`/aos-generate` dispatches four real subagents (via the Task tool) rather than role-playing them in one context — each runs in its own context window and hands off to the next:
+
+| Subagent | Role |
+|---|---|
+| [aos-architect](agents/aos-architect.md) | Designs the domain model, API contract, and business rules (read-only) |
+| [aos-backend-engineer](agents/aos-backend-engineer.md) | Generates DTOs, entity, repository, service + tests, controller |
+| [aos-frontend-engineer](agents/aos-frontend-engineer.md) | Generates API client, hooks, list + form components |
+| [aos-reviewer](agents/aos-reviewer.md) | Reviews everything against standards and fixes blocking findings |
+
+### Git guardrails
+
+The [hooks/](hooks/) `PreToolUse` hook blocks irreversible git operations before they run — force-push (allows `--force-with-lease`), `git reset --hard`, `git clean -f`, `--no-verify`, and direct commits on protected branches — with a message telling the agent what to do instead. Disable with `AOS_DISABLE_GIT_GUARDRAILS=1`; allow protected-branch work with `AOS_ALLOW_PROTECTED=1`.
 
 ---
 
@@ -108,6 +131,11 @@ cp prompts/aider/aider.conf.yml .aider.conf.yml
 
 ```
 architect-os/
+├── skills/             # Claude Code skills — user-invoked commands + model-invoked disciplines
+├── agents/             # Subagent definitions for /aos-generate (architect, backend, frontend, reviewer)
+├── hooks/              # Git guardrails (PreToolUse) — blocks force-push, hard reset, etc.
+├── .claude-plugin/     # Claude Code plugin manifest
+├── CONTEXT.md          # Shared domain glossary + layering model loaded by every skill
 ├── standards/          # Engineering contracts (coding, security, performance, git)
 ├── playbooks/          # Framework-specific implementation guides
 ├── scaffolds/          # Production-ready project templates
@@ -241,7 +269,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. Key areas where contribut
 - **Phase 1** ✅ Standards, playbooks, prompts, and validation rules
 - **Phase 2** ✅ Scaffolding engine with CLI tools
 - **Phase 3** ✅ AI review engine — GitHub Action that posts automated PR feedback via Claude
-- **Phase 4** ✅ Multi-agent orchestration — `/aos-generate` coordinates Architecture, Backend, Frontend, and Review agents to produce a complete feature in one pass
+- **Phase 4** ✅ Multi-agent orchestration — `/aos-generate` dispatches Architect, Backend, Frontend, and Reviewer subagents to produce a complete feature in one pass
+- **Phase 5** ✅ Agent-native packaging — model-invoked disciplines, shared `CONTEXT.md`, real subagents in `agents/`, git guardrail hooks, and a Claude Code plugin manifest
 
 ---
 
